@@ -55,7 +55,7 @@ a {
 
 .paper {
 	backdrop-filter: blur(20px);
-	background-color: #0000004a;
+	background-color: #0000004a!important;
 	padding: 3rem;
 }
 .we-have-a-winner :not(.winner) {
