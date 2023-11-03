@@ -1,6 +1,8 @@
 import { avataaars } from "@dicebear/collection"
 import { Result, createAvatar } from "@dicebear/core"
 
+const skins = ["ffdbb4", "f8d25c", "edb98a"]
+
 const avatars: Record<string, Result> = {
 	Gard: createAvatar(avataaars, {
 		clothesColor: ["262e33"],
@@ -19,6 +21,7 @@ const avatars: Record<string, Result> = {
 export const getAvatar = (name: string) => {
 	const defaultAvatar = createAvatar(avataaars, {
 		seed: name,
+		skinColor: skins,
 	})
 	if (avatars[name]) {
 		return avatars[name].toDataUriSync()

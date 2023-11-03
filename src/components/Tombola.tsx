@@ -1,49 +1,39 @@
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { users } from "../pages"
 import { computed, signal } from "@preact/signals-react"
-import { createAvatar } from "@dicebear/core"
-import { avataaars } from "@dicebear/collection"
 import Image from "next/image"
 import { useEffect } from "react"
 import JSConfetti from "js-confetti"
 import { getAvatar } from "@/data/avatars"
+import useSound from "use-sound"
 
-const skins = ["ffdbb4", "f8d25c", "edb98a"]
 const isRunning = signal(false)
 const selectedPlayer = signal<number | null>(null)
-const winnerIndex = signal<number | null>(null) // The index of the winner
+const winnerIndex = signal<number | null>(null)
 
 export const Tombola = () => {
 	const players = computed(() => {
 		return users.value.filter((user) => user.active)
 	})
 	const jsConfetti = new JSConfetti()
-
-	const avatars = players.value.map(({ name }, index) => ({
-		name: name,
-		avatar: createAvatar(avataaars, {
-			seed: name,
-			accessoriesProbability: 50,
-			skinColor: skins,
-		}),
-		index: index,
-	}))
+	const [playRandomizer] = useSound("/randomizer.wav")
 
 	useEffect(() => {
 		if (isRunning.value) {
+			playRandomizer()
 			let previousIndex = selectedPlayer.value // Store the previous index
 			const timer = setInterval(() => {
 				let randomIndex
 				do {
-					randomIndex = Math.floor(Math.random() * avatars.length)
+					randomIndex = Math.floor(Math.random() * players.value.length)
 				} while (randomIndex === previousIndex) // Keep looping until a different player is selected
 
 				selectedPlayer.value = randomIndex
 
 				previousIndex = randomIndex // Update the previous index
-			}, 600)
+			}, 500)
 
-			// Stop the timer after 15 seconds
+			// Stop the timer after 13 seconds
 			setTimeout(() => {
 				winnerIndex.value = selectedPlayer.value
 				jsConfetti.addConfetti()
@@ -52,7 +42,7 @@ export const Tombola = () => {
 					isRunning.value = false
 				}, 500)
 				clearInterval(timer)
-			}, 15000)
+			}, 13000)
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isRunning.value])
@@ -71,7 +61,7 @@ export const Tombola = () => {
 					!isRunning.value && winnerIndex.value ? "we-have-a-winner" : ""
 				}
 			>
-				{avatars.map(({ name, avatar, index }) => (
+				{players.value.map(({ name }, index) => (
 					<Grid
 						key={`user-${index}`}
 						item
@@ -96,9 +86,9 @@ export const Tombola = () => {
 								src={getAvatar(name)}
 								width={80}
 								height={80}
-								alt={`Bilte ta ${name}`}
+								alt={`Bilde ta ${name}`}
 							/>
-							<Typography>{name}</Typography>
+							<Typography sx={{ textAlign: "center" }}>{name}</Typography>
 						</Box>
 					</Grid>
 				))}
