@@ -6,6 +6,7 @@ import { avataaars } from "@dicebear/collection"
 import Image from "next/image"
 import { useEffect } from "react"
 import JSConfetti from "js-confetti"
+import { getAvatar } from "@/data/avatars"
 
 const skins = ["ffdbb4", "f8d25c", "edb98a"]
 const isRunning = signal(false)
@@ -70,15 +71,15 @@ export const Tombola = () => {
 					!isRunning.value && winnerIndex.value ? "we-have-a-winner" : ""
 				}
 			>
-				{avatars.map(({ name, avatar, index }, currentIndex) => (
+				{avatars.map(({ name, avatar, index }) => (
 					<Grid
 						key={`user-${index}`}
 						item
 						xs={3}
 						className={
-							currentIndex === winnerIndex.value
+							index === winnerIndex.value
 								? "winner"
-								: currentIndex === selectedPlayer.value
+								: index === selectedPlayer.value
 								? "active"
 								: ""
 						}
@@ -92,7 +93,7 @@ export const Tombola = () => {
 							}}
 						>
 							<Image
-								src={avatar.toDataUriSync()}
+								src={getAvatar(name)}
 								width={80}
 								height={80}
 								alt={`Bilte ta ${name}`}
