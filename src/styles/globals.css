@@ -58,6 +58,14 @@ a {
 	background-color: #0000004a;
 	padding: 3rem;
 }
+.we-have-a-winner :not(.winner) {
+	& div p{
+		opacity: 0;
+	}
+	& div img {
+		opacity: .25;
+	}
+}
 
 @media (prefers-color-scheme: dark) {
   html {

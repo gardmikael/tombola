@@ -1,20 +1,8 @@
-import {
-	Box,
-	Button,
-	Container,
-	FormControl,
-	List,
-	ListItem,
-	ListItemText,
-	Paper,
-	Switch,
-	TextField,
-} from "@mui/material"
+import { Container, Paper } from "@mui/material"
 import Head from "next/head"
-import { useState } from "react"
 import YouTube from "react-youtube"
-import { Users } from "./components/Users"
-import { Tombola } from "./components/Tombola"
+import { Users } from "../components/Users"
+import { Tombola } from "../components/Tombola"
 import { signal } from "@preact/signals-react"
 
 export const users = signal([

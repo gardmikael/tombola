@@ -9,7 +9,7 @@ import {
 	TextField,
 } from "@mui/material"
 import { useRef } from "react"
-import { step, users } from ".."
+import { step, users } from "../pages"
 
 export const Users = () => {
 	const newUserRef = useRef<HTMLInputElement | null>(null)
