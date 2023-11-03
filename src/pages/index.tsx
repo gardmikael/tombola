@@ -15,10 +15,12 @@ export const users = signal([
 	{ name: "Thor-Eirik", tickets: 1, active: false },
 	{ name: "Bennny", tickets: 1, active: false },
 	{ name: "Katja", tickets: 1, active: false },
-	{ name: "Kristin", tickets: 1, active: false },
+	{ name: "Kristin V", tickets: 1, active: false },
+	{ name: "Kristin S", tickets: 1, active: false },
 	{ name: "Kine", tickets: 1, active: false },
 	{ name: "Maria", tickets: 1, active: false },
 	{ name: "Ines", tickets: 1, active: false },
+	{ name: "Ole-Aleksander", tickets: 1, active: false },
 ])
 
 export const step = signal("users")
