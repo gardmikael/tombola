@@ -17,7 +17,6 @@ const avatars: Record<string, Result> = {
 		top: [],
 	}),
 	Jarle: createAvatar(avataaars, {
-                backgroundColor: ["ede9fe"],
 		clothesColor: ["65c9ff"],
 		clothing: ["shirtCrewNeck"],
                 clothingGraphic: ["cumbia"],
