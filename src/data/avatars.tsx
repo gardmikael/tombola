@@ -16,6 +16,22 @@ const avatars: Record<string, Result> = {
 		skinColor: ["ffdbb4"],
 		top: [],
 	}),
+	Jarle: createAvatar(avataaars, {
+		clothesColor: ["65c9ff"],
+		clothing: ["shirtCrewNeck"],
+                clothingGraphic: ["cumbia"],
+		eyebrows: ["raisedExcited"],
+		eyes: ["happy"],
+		facialHair: [],
+		facialHairColor: ["2c1b18"],
+		facialHairProbability: 0,
+                hairColor: ["d6b370"],
+		hatColor: ["ff488e"],
+		mouth: ["smile"],
+		skinColor: ["ffdbb4"],
+		top: ["shortFlat"],
+		topProbability: 100,
+	}),
 }
 
 export const getAvatar = (name: string) => {
