@@ -23,7 +23,7 @@
     "use-sound": "^4.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "eslint": "^8",
