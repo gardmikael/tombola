@@ -4,10 +4,12 @@ export const defaultUsers = [
 	"Tone",
 	"Ole-Aleksander",
 	"Thor-Eirik",
-	"Kristins V",
+	"Kristin V",
 	"Maria",
 	"Katja",
 	"Benny",
 	"Ines",
 	"Trude",
+	"Pål",
+	"Sigmund",
 ]
