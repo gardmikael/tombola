@@ -1,6 +1,5 @@
 import { Box, Container, Paper } from "@mui/material"
 import Head from "next/head"
-import { VideoBackground } from "@/components/VideoBackground"
 import { AppProvider } from "@/context/AppContext"
 import { Stepper } from "@/components/Stepper"
 
@@ -17,7 +16,6 @@ export default function Home() {
 				component='main'
 				style={{ height: "100vh", display: "flex", alignItems: "center" }}
 			>
-				<VideoBackground />
 				<AppProvider>
 					<Container>
 						<Paper
