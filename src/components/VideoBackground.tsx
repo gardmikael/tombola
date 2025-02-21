@@ -11,6 +11,7 @@ export function VideoBackground() {
 			iv_load_policy: 3,
 			mute: 1,
 			playlist: process.env.NEXT_PUBLIC_VIDEO_ID,
+			listType: "playlist",
 		},
 	}
 	return (
