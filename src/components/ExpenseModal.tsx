@@ -59,7 +59,7 @@ export const ExpenseModal = ({ open, onClose, onSuccess }: ExpenseModalProps) =>
 			return
 		}
 
-		if (!amount || parseFloat(amount) <= 0) {
+		if (!amount || Number.parseFloat(amount) <= 0) {
 			setError("Beløpet må være større enn 0")
 			return
 		}
@@ -88,11 +88,12 @@ export const ExpenseModal = ({ open, onClose, onSuccess }: ExpenseModalProps) =>
 				setShowAuthModal(true)
 				setError("")
 			} else {
-				const data = await response.json()
+				const data = await response.json().catch(() => ({ message: "Ukjent feil" }))
 				setError(data.message || "Kunne ikke lagre utgift")
 			}
-		} catch (err) {
-			setError("En feil oppstod")
+		} catch (err: any) {
+			console.error("Error submitting expense:", err)
+			setError(err.message || "En feil oppstod. Prøv igjen.")
 		} finally {
 			setLoading(false)
 		}
@@ -109,7 +110,7 @@ export const ExpenseModal = ({ open, onClose, onSuccess }: ExpenseModalProps) =>
 		setShowAuthModal(false)
 		await checkAuth()
 		// Prøv å lagre igjen hvis brukeren har fylt ut skjemaet
-		if (amount && parseFloat(amount) > 0) {
+		if (amount && Number.parseFloat(amount) > 0) {
 			// Trigger submit igjen
 			const form = document.querySelector('form') as HTMLFormElement
 			if (form) {

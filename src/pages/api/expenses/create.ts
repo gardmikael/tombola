@@ -39,27 +39,36 @@ export default async function handler(
 
 		// Begrens filtyper til bilder
 		const allowedExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp'])
-		const allowedMimeTypes = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'])
+		// Utvidet liste med MIME-typer for bedre Android-kompatibilitet
+		const allowedMimeTypes = new Set([
+			'image/jpeg',
+			'image/jpg',
+			'image/png',
+			'image/gif',
+			'image/webp',
+			'image/x-png', // Noen Android-enheter sender dette
+		])
 		
 		const form = new IncomingForm({
 			uploadDir,
 			keepExtensions: true,
 			maxFileSize: 10 * 1024 * 1024, // 10MB
 			allowEmptyFiles: false,
-			filter: (part) => {
-				// Kun tillat bilder - sjekk både MIME-type og filnavn
-				if (!part.mimetype || !part.originalFilename) {
-					return false
-				}
-				const ext = path.extname(part.originalFilename).toLowerCase()
-				const isValidExt = allowedExtensions.has(ext)
-				const isValidMime = allowedMimeTypes.has(part.mimetype)
-				// Begge må være gyldige
-				return isValidExt && isValidMime
-			},
+			// Fjernet filter - validerer i stedet etter parsing for bedre feilmeldinger
 		})
 		
-		const [fields, files] = await form.parse(req)
+		let fields: any
+		let files: any
+		
+		try {
+			;[fields, files] = await form.parse(req)
+		} catch (parseError: any) {
+			console.error('Form parse error:', parseError)
+			return res.status(400).json({
+				success: false,
+				message: parseError.message || 'Kunne ikke parse fil. Sjekk at filen er et gyldig bilde under 10MB.',
+			})
+		}
 
 		const amount = Array.isArray(fields.amount) ? fields.amount[0] : fields.amount
 		const receipt = Array.isArray(files.receipt) ? files.receipt[0] : files.receipt
@@ -72,14 +81,34 @@ export default async function handler(
 
 		// Håndter bildeopplasting hvis det finnes
 		if (receipt) {
-			// Valider filtype
+			// Valider filtype - mer fleksibel for Android
 			const fileExtension = path.extname(receipt.originalFilename || '').toLowerCase()
+			const mimeType = receipt.mimetype?.toLowerCase() || ''
+			
+			// Log for debugging
+			console.log('File upload attempt:', {
+				filename: receipt.originalFilename,
+				extension: fileExtension,
+				mimetype: receipt.mimetype,
+				size: receipt.size,
+			})
+			
+			// Sjekk extension
 			if (!allowedExtensions.has(fileExtension)) {
 				// Slett filen hvis den ikke er tillatt
 				if (fs.existsSync(receipt.filepath)) {
 					fs.unlinkSync(receipt.filepath)
 				}
-				return res.status(400).json({ success: false, message: 'Invalid file type. Only images are allowed.' })
+				return res.status(400).json({
+					success: false,
+					message: `Ugyldig filtype. Tillatte formater: ${Array.from(allowedExtensions).join(', ')}. Fikk: ${fileExtension || 'ukjent'}`,
+				})
+			}
+			
+			// Sjekk MIME-type (mer fleksibel - tillat hvis extension er OK eller MIME-type er OK)
+			const isValidMime = !mimeType || allowedMimeTypes.has(mimeType) || mimeType.startsWith('image/')
+			if (!isValidMime && mimeType) {
+				console.warn('Unexpected MIME type:', mimeType, 'but extension is valid, allowing')
 			}
 
 			const supabaseAdmin = getSupabaseAdmin()
@@ -129,8 +158,14 @@ export default async function handler(
 		}
 
 		return res.status(200).json({ success: true })
-	} catch (error) {
-		console.error('Error:', error)
-		return res.status(500).json({ success: false, message: 'Internal server error' })
+	} catch (error: any) {
+		console.error('Error in expenses/create:', error)
+		// Gi mer spesifikk feilmelding
+		const errorMessage =
+			error.message || error.toString() || 'En feil oppstod ved opplasting. Prøv igjen.'
+		return res.status(500).json({
+			success: false,
+			message: errorMessage,
+		})
 	}
 }
