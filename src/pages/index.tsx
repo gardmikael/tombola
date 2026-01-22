@@ -2,6 +2,7 @@ import { Box, Container, Paper } from "@mui/material"
 import Head from "next/head"
 import { AppProvider } from "@/context/AppContext"
 import { Stepper } from "@/components/Stepper"
+import { ExpenseButton } from "@/components/ExpenseButton"
 
 export default function Home() {
 	return (
@@ -14,7 +15,7 @@ export default function Home() {
 			</Head>
 			<Box
 				component='main'
-				style={{ height: "100vh", display: "flex", alignItems: "center" }}
+				style={{ height: "100vh", display: "flex", alignItems: "center", position: "relative" }}
 			>
 				<AppProvider>
 					<Container>
@@ -26,6 +27,7 @@ export default function Home() {
 							<Stepper />
 						</Paper>
 					</Container>
+					<ExpenseButton />
 				</AppProvider>
 			</Box>
 		</>

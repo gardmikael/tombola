@@ -7,11 +7,13 @@ import {
 	Switch,
 	TextField,
 } from "@mui/material"
-
+import { useState } from "react"
 import { useApp } from "@/context/AppContext"
+import { ExpenseModal } from "./ExpenseModal"
 
 export const Users = () => {
 	const { setStep, users, toggleActive, addUser } = useApp()
+	const [expenseModalOpen, setExpenseModalOpen] = useState(false)
 
 	return (
 		<>
@@ -51,6 +53,10 @@ export const Users = () => {
 					Trekk
 				</Button>
 			</Box>
+			<ExpenseModal
+				open={expenseModalOpen}
+				onClose={() => setExpenseModalOpen(false)}
+			/>
 		</>
 	)
 }

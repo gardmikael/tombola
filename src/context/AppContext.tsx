@@ -1,7 +1,7 @@
 import { defaultUsers } from "@/data/default-users"
 import React, { createContext, useContext, useState } from "react"
 
-type Step = "users" | "tombola"
+type Step = "users" | "tombola" | "transactions"
 
 type AppContextProps = {
 	users: { name: string; tickets: number; active: boolean }[]
