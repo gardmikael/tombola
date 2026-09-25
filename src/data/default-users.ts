@@ -9,7 +9,12 @@ export const defaultUsers = [
 	"Katja",
 	"Benny",
 	"Ines",
-	"Trude",
-	"Pål",
+	"Knut",
 	"Sigmund",
+	"Gjermund",
+	"Erik",
+	"Åslaug",
+	"Ingrid",
+	"Robert",
+	"Nivi"
 ]
