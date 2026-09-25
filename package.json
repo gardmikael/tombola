@@ -14,7 +14,7 @@
 	"dependencies": {
 		"@dicebear/collection": "^9.2.2",
 		"@dicebear/core": "^9.2.2",
-		"@emotion/react": "^11.13.5",
+		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
 		"@mui/material": "^6.1.9",
 		"@supabase/supabase-js": "^2.91.0",
